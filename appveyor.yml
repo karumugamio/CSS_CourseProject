@@ -1,0 +1,48 @@
+version: 0.0.{build}
+
+clone_folder: ~/projects
+
+image: Ubuntu
+
+skip_tags: true
+
+build: off
+
+environment:
+  REGIONS: ap-south-1 # Add your AWS regions here - example: REGIONS: us-east-1 eu-central-1 ap-southeast-2
+  AWS_ACCESS_KEY_ID:
+    secure: OqvKGC/8yoa4TapB6LsQoV6plRb1OjC1jT+J4JUnBUU=
+  AWS_SECRET_ACCESS_KEY:
+    secure: YRjP7GBuL6li5pShbCWzkG8U/artgGBdTXZan/HW
+
+install:
+  - sh: |
+      nvm use 14
+      npm install
+      npm install -g serverless
+
+deploy_script:
+  - sh: |
+      cd ~/projects
+      read -a regions <<< "$REGIONS"
+      for region in ${regions[@]};
+      do
+        echo "Deploying solution to region $region"
+        if [[ $APPVEYOR_REPO_BRANCH == "main" ]]; then
+          serverless deploy --stage prod --region $region
+        elif [[ $APPVEYOR_REPO_BRANCH == "develop" ]]; then
+          serverless deploy --stage test --region $region
+        else
+          serverless deploy --stage dev --region $region
+        fi
+      done
+
+for:
+  - branches:
+      only:
+        - main
+    environment:
+      AWS_ACCESS_KEY_ID:
+        secure: OqvKGC/8yoa4TapB6LsQoV6plRb1OjC1jT+J4JUnBUU=
+      AWS_SECRET_ACCESS_KEY:
+        secure: YRjP7GBuL6li5pShbCWzkG8U/artgGBdTXZan/HW
