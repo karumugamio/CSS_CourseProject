@@ -88,3 +88,32 @@ package:
     - "!node_modules/aws-sdk/**"
     - "!resources/**"
     - "src/common/**"
+
+
+
+functions:
+  searchCandidate:
+      name: ElectionCandidateProfileRestAPI
+      description: Function that is called from API Gateway serach candidate.
+      timeout: 15 # elastic search configuration can take some time
+      handler: src/restapi/getcandidates.handler
+      package:
+        patterns:
+          - src/restapi/getcandidates.js
+      events:
+        - http:
+            path: searchCandidate
+            method: post
+            cors:
+              origin: "*"
+              headers:
+                - env
+                - token
+                - tokensource
+                - Content-Type
+                - X-Amz-Date
+                - Authorization
+                - X-Api-Key
+                - X-Amz-Security-Token
+                - X-Amz-User-Agent
+              allowCredentials: false        
