@@ -1,6 +1,4 @@
-#url = 'https://822105301108.signin.aws.amazon.com/console'
-#accessKeys = 'AKIA362KLMB2GURPOUVH'
-#secrets = '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'
+
 
 
 from pprint import pprint
