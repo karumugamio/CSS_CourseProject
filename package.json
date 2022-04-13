@@ -14,6 +14,7 @@
     "promise-reflect": "^1.1.0",
     "serverless-dynamodb-autoscaling": "^0.6.2",
     "serverless-plugin-aws-alerts": "^1.7.3",
+    "shim": "^0.6.0",
     "stream": "^0.0.2",
     "uuidv4": "^6.2.10"
   }

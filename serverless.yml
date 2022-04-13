@@ -23,7 +23,7 @@ provider:
   versionFunctions: false
   iam:
     role:
-      name: ${self:provider.stackTags.Product}_${self:provider.stackTags.Customer}_Ingestion_Role_${self:provider.region}_${self:provider.stage}
+      name: ${self:provider.stackTags.Customer}_Ingestion_Role_${self:provider.region}_${self:provider.stage}
       statements:
         - Effect: Allow
           Action:
