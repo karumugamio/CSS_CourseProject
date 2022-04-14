@@ -10,7 +10,7 @@ const lambda = require('../common/controllers/lambda');
 
 exports.handler = async (event, context) => {
     console.log('searchCandidate begin');
-
+    console.log(JSON.stringify(event));
     const responseBody = {
         success: false
     };
