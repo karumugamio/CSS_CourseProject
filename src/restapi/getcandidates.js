@@ -22,6 +22,7 @@ exports.handler = async (event, context) => {
     }  */
 
     console.log('searchCandidate, validate body');
+    console.log('event.body is :::::::'+JSON.stringify(event.body));
     const requestBodyValidation = utils.isRequestBodyValid(event, ['statename', 'year']);
     if (!requestBodyValidation.valid) {
         return utils.sendResponse(status.BadRequest, requestBodyValidation);
