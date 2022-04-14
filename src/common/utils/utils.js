@@ -1,7 +1,6 @@
 const fetch = require('node-fetch')
 const crypto = require('crypto')
 const tokenSources = require('../constants/tokenSources')
-const constants = require('../constants/generalConstants')
 const lambda = require('../controllers/lambda')
 
 const algorithm = 'aes-256-cbc'
