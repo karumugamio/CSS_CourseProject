@@ -52,7 +52,7 @@ exports.handler = async (event, context) => {
         console.log('searchCandidate, getting customer and application');
         //response = await dynamo.query('affidavitdata', undefined, 'org_id = :org_id', { ':org_id': organizationId });
         // console.log('searchCandidate, get customer response = ' + JSON.stringify(response, null, 3));
-        defaultConfigResponse = await dynamo.query('affidavitdata', undefined, 'begins_with(id_year , :id_year)', { ':id_year': [requestBody.year,requestBody.statename].join('') });
+        defaultConfigResponse = await dynamo.query('affidavitdata', undefined, 'begins_with(id_year , :id_year)', { ':id_year': [requestBody.year,requestBody.statename].join('_') });
         return utils.sendResponse(status.OK, responseBody);
 
     } catch (error) {
