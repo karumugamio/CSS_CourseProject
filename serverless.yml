@@ -1,5 +1,5 @@
 # https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
-service: ${self:provider.stackTags.Team}-${self:provider.stackTags.Product}-${self:provider.stackTags.Customer}
+service: ${self:provider.stackTags.Customer}-candidateprofile
   
 provider:
   name: aws
@@ -23,7 +23,7 @@ provider:
   versionFunctions: false
   iam:
     role:
-      name: ${self:provider.stackTags.Customer}_Ingestion_Role_${self:provider.region}_${self:provider.stage}
+      name: ${self:provider.stackTags.Customer}_candidateprofile_${self:provider.region}_${self:provider.stage}
       statements:
         - Effect: Allow
           Action:
@@ -67,7 +67,7 @@ resources:
     ConfigTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: ${self:provider.stackTags.Product}_${self:provider.stackTags.Customer}_Ingestion_configuration_${self:provider.region}_${self:provider.stage}
+        TableName: ${self:provider.stackTags.Customer}_Ingestion_configuration_${self:provider.region}_${self:provider.stage}
         ProvisionedThroughput:
               ReadCapacityUnits: 30
               WriteCapacityUnits: 30
@@ -93,7 +93,7 @@ package:
 
 functions:
   searchCandidate:
-      name: ElectionCandidateProfileRestAPI
+      name: searchcandidaterestapi
       description: Function that is called from API Gateway serach candidate.
       timeout: 15 # elastic search configuration can take some time
       handler: src/restapi/getcandidates.handler
@@ -102,16 +102,5 @@ functions:
           - src/restapi/getcandidates.js
       events:
         - http:
-            path: searchCandidate
-            method: post
-            cors:
-              origin: "*"
-              headers:
-                - env
-                - Content-Type
-                - X-Amz-Date
-                - Authorization
-                - X-Api-Key
-                - X-Amz-Security-Token
-                - X-Amz-User-Agent
-              allowCredentials: false        
+            path: getcandidates
+            method: post 
