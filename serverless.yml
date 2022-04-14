@@ -108,8 +108,6 @@ functions:
               origin: "*"
               headers:
                 - env
-                - token
-                - tokensource
                 - Content-Type
                 - X-Amz-Date
                 - Authorization
