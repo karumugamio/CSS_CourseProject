@@ -72,10 +72,10 @@ resources:
               ReadCapacityUnits: 30
               WriteCapacityUnits: 30
         AttributeDefinitions:
-          - AttributeName: tenant_id
+          - AttributeName: affidavit_id
             AttributeType: S
         KeySchema:
-          - AttributeName: tenant_id
+          - AttributeName: affidavit_id
             KeyType: HASH
         Tags:
           - 
