@@ -17,6 +17,7 @@ provider:
     NODE_ENV: ${opt:stage, self:provider.stage}
     REGION: ${opt:region, self:provider.region}
     APP_ID: ${self:provider.stackTags.Product}_${self:provider.stackTags.Customer}_ingestion_layer_${self:provider.region}_${self:provider.stage}
+    TABLE_NAME: ${self:provider.stackTags.Customer}_affidavit_data
   tracing:
     apiGateway: true
     lambda: true
