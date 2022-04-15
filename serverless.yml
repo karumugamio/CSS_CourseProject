@@ -1,0 +1,105 @@
+# https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml
+service: ${self:provider.stackTags.Customer}-candidateprofile
+  
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-south-1'}
+  stackTags:
+    Customer: CSSCourseProject
+    Platform: AWS
+    Product: ElectionCandidateProfile
+    Stage: ${self:provider.stage}
+    Team: team9
+  environment:
+    NODE_ENV: ${opt:stage, self:provider.stage}
+    REGION: ${opt:region, self:provider.region}
+    APP_ID: ${self:provider.stackTags.Product}_${self:provider.stackTags.Customer}_ingestion_layer_${self:provider.region}_${self:provider.stage}
+    TABLE_NAME: ${self:provider.stackTags.Customer}_affidavit_data
+  tracing:
+    apiGateway: true
+    lambda: true
+  versionFunctions: false
+  iam:
+    role:
+      name: ${self:provider.stackTags.Customer}_candidateprofile_${self:provider.region}_${self:provider.stage}
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            - lambda:InvokeFunction
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:DeleteItem
+            - dynamodb:DescribeTable
+            - dynamodb:CreateTable
+            - dynamodb:DeleteTable
+            - dynamodb:UpdateItem
+            - dynamodb:UpdateTable
+            - dynamodb:BatchWriteItem
+            - dynamodb:PutItem
+            - secretsmanager:GetSecretValue
+            - s3:GetObject
+            - s3:ListBucket
+            - xray:PutTraceSegments
+            - xray:PutTelemetryRecords
+            - ses:SendEmail
+            - sqs:GetQueueAttributes
+            - sqs:GetQueueUrl
+            - sqs:ListQueueTags
+            - sqs:ReceiveMessage
+            - sqs:DeleteMessage
+            - sqs:SendMessage
+            - sqs:SendMessageBatch
+            - sqs:SetQueueAttributes
+          Resource: "*"
+  deploymentBucket:
+    name: deployments-${aws:accountId}-${self:provider.region}
+    blockPublicAccess: true
+
+resources:
+  Description: This is ${self:provider.stackTags.Team}'s ${self:provider.stackTags.Product} deployment for ${self:provider.stackTags.Customer} in ${self:provider.stage} stage. Please contact PSA3S@genesys.com for more details
+  Resources:
+    ConfigTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        TableName: ${self:provider.stackTags.Customer}_affidavit_data
+        ProvisionedThroughput:
+              ReadCapacityUnits: 30
+              WriteCapacityUnits: 30
+        AttributeDefinitions:
+          - AttributeName: affidavit_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: affidavit_id
+            KeyType: HASH
+        Tags:
+          - 
+            Key: 'AWSDailyDynamoDbBackup'
+            Value: 'true'
+package:
+  individually: false
+  patterns:
+    - "src/**"
+    - "!node_modules/aws-sdk/**"
+    - "!resources/**"
+    - "!Data/**"
+
+functions:
+  searchCandidate:
+      name: searchcandidaterestapi
+      description: Function that is called from API Gateway serach candidate.
+      timeout: 15 # elastic search configuration can take some time
+      handler: src/restapi/getcandidates.handler
+      package:
+        patterns:
+          - src/restapi/getcandidates.js
+      events:
+        - http:
+            path: getcandidates
+            method: post 

@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+node_modules
+*.zip
+.serverless/serverless-state.json
+.serverless/cloudformation-template-update-stack.json
