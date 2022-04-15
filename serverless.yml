@@ -87,9 +87,7 @@ package:
     - "src/**"
     - "!node_modules/aws-sdk/**"
     - "!resources/**"
-    - "src/common/**"
-
-
+    - "!Data/**"
 
 functions:
   searchCandidate:

@@ -38,9 +38,9 @@ exports.handler = async (event, context) => {
     try {
         subSegment = segment.addNewSubsegment('Checking configuration');
         
-        console.log('searchCandidate, candidateName = %s', process.env.APPLICATION_ID);
-        console.log('searchCandidate, stateName = %s', 'affidavitdata');
-        console.log('searchCandidate, year = %s', 'affidavitdata');
+        
+        console.log('searchCandidate, stateName = %s', requestBody.statename);
+        console.log('searchCandidate, year = %s', requestBody.year);
 
         subSegment.close();
 
