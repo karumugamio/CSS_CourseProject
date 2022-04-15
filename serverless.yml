@@ -67,7 +67,7 @@ resources:
     ConfigTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: ${self:provider.stackTags.Customer}_Ingestion_configuration_${self:provider.region}_${self:provider.stage}
+        TableName: ${self:provider.stackTags.Customer}_affidavit_data
         ProvisionedThroughput:
               ReadCapacityUnits: 30
               WriteCapacityUnits: 30
