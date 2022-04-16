@@ -52,7 +52,7 @@ exports.handler = async (event, context) => {
         console.log('searchCandidate, getting customer and application');
         FilterExpression= "#electionyear = :ecyear and #stateName = :stateName";
         ExpressionAttributeNames= {"#electionyear": "electionyear","#stateName": "stateName"};
-        ExpressionAttributeValues = { ":electionyear": requestBody.year,":stateName": requestBody.statename };
+        ExpressionAttributeValues = { ":ecyear": requestBody.year,":stateName": requestBody.statename };
 
 //        let ingestionData = await dynamoCtrler.scan(constants.AUDIT_TABLENAME,FilterExpression,ExpressionAttributeValues,ExpressionAttributeNames);
 
