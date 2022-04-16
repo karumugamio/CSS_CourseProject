@@ -52,7 +52,7 @@ exports.handler = async (event, context) => {
         console.log('searchCandidate, getting customer and application');
         //response = await dynamo.query('affidavitdata', undefined, 'org_id = :org_id', { ':org_id': organizationId });
         // console.log('searchCandidate, get customer response = ' + JSON.stringify(response, null, 3));
-        defaultConfigResponse = await dynamo.query(process.env.TABLE_NAME, undefined, 'electionyear = :year and state = :state', { ':year': requestBody.year,':state' :requestBody.statename });
+        defaultConfigResponse = await dynamo.query(process.env.TABLE_NAME, undefined, 'electionyear = :ecyear and stateName = :stateName', { ':ecyear': requestBody.year,':stateName' :requestBody.statename });
         return utils.sendResponse(status.OK, responseBody);
 
     } catch (error) {
