@@ -59,7 +59,31 @@ exports.handler = async (event, context) => {
         defaultConfigResponse = await dynamo.scan(process.env.TABLE_NAME, FilterExpression,ExpressionAttributeValues,ExpressionAttributeNames);
 //            'electionyear = :ecyear and stateName = :stateName', { ':ecyear': requestBody.year,':stateName' :requestBody.statename });'
         console.log(defaultConfigResponse);        
-        responseBody.candidates = defaultConfigResponse;
+
+        let processedCandidateList = [];
+        for (candidate of defaultConfigResponse){
+            redflags={financial: {}};
+            info = {};
+            if(candidate.filed_itr == false && candidate.net_assets>10000){
+                redflags.financial.itr = `Candidate has over ${candidate.assets} but not filed ITR`;
+            }
+            if(candidate.declared_pan == false && candidate.net_assets>10000){
+                redflags.financial.pan = `Candidate has over ${candidate.assets} but Do not have declared PAN`;
+            }
+            
+
+            if(candidate.recontest_assets_change_pct != 'NOT_AVAILABLE') {
+                info.changeinAssets=`Candidate's Asset have changed by ${}% since his last election `
+            }
+            if(candidate.serious_criminal_cases) {
+                info.criminalCases=`Candidate's got Serious criminal cases`;
+            }
+
+            candidateProcessed={redflags,info,candidate};
+            processedCandidateList.push(candidateProcessed);
+
+        }
+        responseBody.candidates = processedCandidateList;
         return utils.sendResponse(status.OK, responseBody);
 
     } catch (error) {
