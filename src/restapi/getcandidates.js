@@ -50,9 +50,14 @@ exports.handler = async (event, context) => {
         // Setup purecloud api instance
         
         console.log('searchCandidate, getting customer and application');
-        //response = await dynamo.query('affidavitdata', undefined, 'org_id = :org_id', { ':org_id': organizationId });
-        // console.log('searchCandidate, get customer response = ' + JSON.stringify(response, null, 3));
-        defaultConfigResponse = await dynamo.query(process.env.TABLE_NAME, undefined, 'electionyear = :ecyear and stateName = :stateName', { ':ecyear': requestBody.year,':stateName' :requestBody.statename });
+        FilterExpression= "#electionyear = :ecyear and #stateName = :stateName";
+        ExpressionAttributeNames= {"#electionyear": "electionyear","#stateName": "stateName"};
+        ExpressionAttributeValues = { ":electionyear": requestBody.year,":stateName": requestBody.statename };
+
+//        let ingestionData = await dynamoCtrler.scan(constants.AUDIT_TABLENAME,FilterExpression,ExpressionAttributeValues,ExpressionAttributeNames);
+
+        defaultConfigResponse = await dynamo.scan(process.env.TABLE_NAME, FilterExpression,ExpressionAttributeValues,ExpressionAttributeNames);
+//            'electionyear = :ecyear and stateName = :stateName', { ':ecyear': requestBody.year,':stateName' :requestBody.statename });
         return utils.sendResponse(status.OK, responseBody);
 
     } catch (error) {
