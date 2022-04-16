@@ -62,18 +62,18 @@ exports.handler = async (event, context) => {
 
         let processedCandidateList = [];
         for (candidate of defaultConfigResponse){
-            redflags={financial: {}};
+            redflags={};
             info = {};
             if(candidate.filed_itr == false && candidate.net_assets>10000){
-                redflags.financial.itr = `Candidate has over ${candidate.assets} but not filed ITR`;
+                redflags.financial_itr = `Candidate has over ${candidate.assets} but not filed ITR`;
             }
             if(candidate.declared_pan == false && candidate.net_assets>10000){
-                redflags.financial.pan = `Candidate has over ${candidate.assets} but Do not have declared PAN`;
+                redflags.financial_pan = `Candidate has over ${candidate.assets} but Do not have declared PAN`;
             }
             if(candidate.recontest_assets_change_pct != 'NOT_AVAILABLE') {
                 info.changeinAssets=`Candidate's Asset have changed by ${candidate.recontest_assets_change_pct}% since his last election `;
             }
-            if(candidate.serious_criminal_cases) {
+            if(candidate.serious_criminal_cases == true) {
                 info.criminalCases=`Candidate's got Serious criminal cases`;
             }
 
