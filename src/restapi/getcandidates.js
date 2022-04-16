@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
     console.log('searchCandidate begin');
     console.log(JSON.stringify(event));
     const responseBody = {
-        success: false
+        status: status.OK
     };
 
     console.log('searchCandidate, validate headers');
@@ -82,6 +82,7 @@ exports.handler = async (event, context) => {
 
         }
         responseBody.candidates = processedCandidateList;
+        responseBody.refid = context.awsRequestId;
         return utils.sendResponse(status.OK, responseBody);
 
     } catch (error) {
