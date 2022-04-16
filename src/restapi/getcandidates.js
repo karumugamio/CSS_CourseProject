@@ -70,16 +70,14 @@ exports.handler = async (event, context) => {
             if(candidate.declared_pan == false && candidate.net_assets>10000){
                 redflags.financial.pan = `Candidate has over ${candidate.assets} but Do not have declared PAN`;
             }
-            
-
             if(candidate.recontest_assets_change_pct != 'NOT_AVAILABLE') {
-                info.changeinAssets=`Candidate's Asset have changed by ${}% since his last election `
+                info.changeinAssets=`Candidate's Asset have changed by ${candidate.recontest_assets_change_pct}% since his last election `;
             }
             if(candidate.serious_criminal_cases) {
                 info.criminalCases=`Candidate's got Serious criminal cases`;
             }
 
-            candidateProcessed={redflags,info,candidate};
+            candidateProcessed={"potentialIssues":redflags,"information":info,"profile":candidate};
             processedCandidateList.push(candidateProcessed);
 
         }
