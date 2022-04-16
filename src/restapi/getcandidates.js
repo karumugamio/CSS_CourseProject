@@ -57,7 +57,9 @@ exports.handler = async (event, context) => {
 //        let ingestionData = await dynamoCtrler.scan(constants.AUDIT_TABLENAME,FilterExpression,ExpressionAttributeValues,ExpressionAttributeNames);
 
         defaultConfigResponse = await dynamo.scan(process.env.TABLE_NAME, FilterExpression,ExpressionAttributeValues,ExpressionAttributeNames);
-//            'electionyear = :ecyear and stateName = :stateName', { ':ecyear': requestBody.year,':stateName' :requestBody.statename });
+//            'electionyear = :ecyear and stateName = :stateName', { ':ecyear': requestBody.year,':stateName' :requestBody.statename });'
+        console.log(defaultConfigResponse);        
+        responseBody.candidates = defaultConfigResponse;
         return utils.sendResponse(status.OK, responseBody);
 
     } catch (error) {
