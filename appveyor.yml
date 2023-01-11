@@ -11,9 +11,9 @@ build: off
 environment:
   REGIONS: ap-south-1 # Add your AWS regions here - example: REGIONS: us-east-1 eu-central-1 ap-southeast-2
   AWS_ACCESS_KEY_ID:
-    secure: OqvKGC/8yoa4TapB6LsQoV6plRb1OjC1jT+J4JUnBUU=
+    secure: <tbd>
   AWS_SECRET_ACCESS_KEY:
-    secure: X65i7xw9XPgv7QuCV5PVDo68vl36h2SYV47HlpaXAK6y7IQbhNQ0oGszr/SKIELD
+    secure: <tbd>
 
 install:
   - sh: |
