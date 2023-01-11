@@ -43,6 +43,6 @@ for:
         - main
     environment:
       AWS_ACCESS_KEY_ID:
-        secure: OqvKGC/8yoa4TapB6LsQoV6plRb1OjC1jT+J4JUnBUU=
+        secure: <tbd>
       AWS_SECRET_ACCESS_KEY:
-        secure: X65i7xw9XPgv7QuCV5PVDo68vl36h2SYV47HlpaXAK6y7IQbhNQ0oGszr/SKIELD
+        secure: <tbd>
